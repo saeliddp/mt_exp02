@@ -14,20 +14,23 @@ def splitByDoubleZeros(doc_num):
     return [doc_num[:last_zero_ind - 1], doc_num[last_zero_ind + 1:]]
     
     
-currqid = 1
-old_qids = [1,5,6,15,25,29,36,40,42,44,46,49,54,56,57,58,63,67,77,78]
-new_lines = []
-currfile = '05gfp_a.txt'
-with open(currfile, 'r') as fr:
-    lines = fr.readlines()
-for line in lines:
-    pieces = line.split(" ")
-    if currqid <= 20 and pieces[0][:-1] != str(old_qids[currqid - 1]):
-        print(str(currqid) + " completed")
-        currqid += 1
-    pieces[0] = str(currqid) + pieces[0][-1]
-    pieces[2] = str(currqid) + '00' + splitByDoubleZeros(pieces[2])[1]
-    new_lines.append(" ".join(pieces))
-with open("n" + currfile, 'w') as fw:
-    fw.writelines(new_lines)
-    
+files = ['0g_a.txt', '03gf_b.txt', '05gf_a.txt', '05gf_b.txt']
+def normalize(currfile):
+    currqid = 1
+    old_qids = [1,5,6,15,25,29,36,40,42,44,46,49,54,56,57,58,63,67,77,78]
+    new_lines = []
+    with open(currfile, 'r') as fr:
+        lines = fr.readlines()
+    for line in lines:
+        pieces = line.split(" ")
+        if currqid <= 20 and pieces[0][:-1] != str(old_qids[currqid - 1]):
+            print(str(currqid) + " completed")
+            currqid += 1
+        pieces[0] = str(currqid) + pieces[0][-1]
+        pieces[2] = str(currqid) + '00' + splitByDoubleZeros(pieces[2])[1]
+        new_lines.append(" ".join(pieces))
+    with open("n" + currfile, 'w') as fw:
+        fw.writelines(new_lines)
+
+for f in files:
+    normalize(f)
