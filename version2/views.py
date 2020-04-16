@@ -100,17 +100,17 @@ def redir(request, q_id, respondent_id):
             left_alg = getAlgs(id)[0]
             right_alg = getAlgs(id)[1]
             if request.GET['radio'] == 'left':
-                choice = left_alg
-                not_choice = right_alg
+                choice = left_alg[:-2]
+                not_choice = right_alg[:-2]
             else:
-                choice = right_alg
-                not_choice = left_alg
+                choice = right_alg[:-2]
+                not_choice = left_alg[:-2]
         
         if 'time_elapsed' in request.GET:
             response = Response(respondent=user,
                                 query=Query.objects.filter(query_id=id)[0],
-                                chosen_alg=Algorithm.objects.filter(name=choice[:-2])[0],
-                                unchosen_alg=Algorithm.objects.filter(name=not_choice[:-2])[0],
+                                chosen_alg=Algorithm.objects.filter(name=choice)[0],
+                                unchosen_alg=Algorithm.objects.filter(name=not_choice)[0],
                                 time_elapsed=int(request.GET['time_elapsed']))
             response.save()
         
